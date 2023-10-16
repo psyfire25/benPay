@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Invoice {
+  id            Int @id @default(autoincrement())
+  invoiceNo     Int
+  clientName    String
+  firm          String
+  policeStation String
+  mileage       String
+  expenses      String
+  price         String
+  paid          Boolean @default(false)
+  currentDate   DateTime @default(now())
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+}
+
+model Firm {
+  id            Int @id @default(autoincrement())
+  name          String
+}
+
+model Station {
+  id            Int @id @default(autoincrement())
+  name          String
+}
+
+model Price {
+  id            Int @id @default(autoincrement())
+  price         String
+}
+
+model Search {
+  id Int @id @default(autoincrement()) 
+  query String
+}
