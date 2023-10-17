@@ -3,7 +3,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { prisma } from '@/prisma/db';
 import { redirect } from 'next/navigation';
-import deleteFirm from '@/src/deleteFirm'
 
 async function addF(formData) {
         "use server"
@@ -46,7 +45,7 @@ export default async function Edit() {
           </form>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {firms.map((firm) => (
-          <form   onSubmit={deleteFirm(firm.id)} key={firm.id} className=" p-4 shadow rounded-lg flex items-center justify-between">
+          <form key={firm.id} className=" p-4 shadow rounded-lg flex items-center justify-between">
             <h2 className="text-lg font-semibold">{firm.name}</h2>
             <Button type="submit">Delete</Button>
           </form>
