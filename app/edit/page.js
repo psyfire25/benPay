@@ -3,13 +3,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { prisma } from '@/prisma/db';
 import { redirect } from 'next/navigation';
+import FirmForm from '@/app/_utils/firmForm'
 
-async function addF(formData) {
-        "use server"
-        const name = String(formData.get('firm'));
-        await prisma.firm.create({ data: { name } });
-        redirect("/edit");
-}
+// async function addF(formData) {
+//         "use server"
+//         const name = String(formData.get('firm'));
+//         await prisma.firm.create({ data: { name } });
+//         redirect("/edit");
+// }
     
 async function addStation(formData) {
         "use server"
@@ -32,17 +33,7 @@ export default async function Edit() {
 
   return (
       <div >
-          <form action={addF}>
-            <h1>Add Firms</h1>
-            <div>
-             <Label htmlFor="clientName">Add Firm:</Label>
-             <Input
-            id="firm"
-            name="firm"
-            />
-            <Button>Add</Button>
-            </div>
-          </form>
+          {/* <FirmForm /> */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {firms.map((firm) => (
           <form key={firm.id} className=" p-4 shadow rounded-lg flex items-center justify-between">

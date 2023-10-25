@@ -1,17 +1,29 @@
-import { prisma } from '@/prisma/db';
-import { Image } from 'next/image'
-import { format } from 'date-fns'; // Import the format function from date-fns library
+"use client"
+import Image from 'next/image'
+import { Button } from '@/components/ui/button';
+import generatePDF from 'react-to-pdf';
+import { useEffect, useState } from 'react';
+import { fetchInvoiceData } from '/app/invoice/_utils/getInvoiceData';
 
-export default async function Invoice() {
+export default function Invoice() {
+  const [invoiceData, setInvoiceData] = useState(null);
 
-  const invoiceData = await prisma.invoice.findFirst();
-  // Format createdAt date to a string
-  const formattedDate = invoiceData.createdAt
-    ? format(new Date(invoiceData.createdAt), 'MMMM dd, yyyy') // Adjust the date format as per your requirements
-    : '';
-  
-  const total = invoiceData.price 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await fetchInvoiceData();
+        setInvoiceData(data);
+      } catch (error) {
+        console.error('Error fetching invoice data:', error);
+      }
+    }
 
+    fetchData();
+  }, []);
+
+  if (!invoiceData) {
+    return <div>Loading...</div>;
+  }
   return (
     <main className="container mx-auto mt-8 bg-white text-black">
       <div className="text-center mb-4">
@@ -62,7 +74,7 @@ export default async function Invoice() {
       <div className="mt-4">
         <p>GRAND TOTAL: {total}</p>
       </div>
-      {/* <div><Image width={500} height={100} src="public/signature.png" alt="Signature" className="w-20 h-auto mr-4" /></div> */}
+      <div><Image width={500} height={100} src="/public/sig.png" alt="Signature" className="w-20 h-auto mr-4" /></div>
       <div className="flex items-center mt-8">
         <div className="flex items-center mt-8">
           <p>Benjamin A Schiller</p>
@@ -72,8 +84,14 @@ export default async function Invoice() {
           <p>All payments must be made no later than 28 days after the issue date of this invoice (unless a shorter time frame has been agreed).</p>
         </div>
       </div>
+      <div><div>
+      <Button onClick={() => generatePDF(targetRef, { filename: 'invoice${invoiceData.invoiceNumber}.pdf' })}>Download PDF</Button>
+      <div ref={targetRef}>
+        Content to be included in the PDF
+      </div>
+    </div></div>
     </main>
   );
-};
+}
 
 
