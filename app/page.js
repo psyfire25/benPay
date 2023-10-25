@@ -65,7 +65,7 @@ export default async function Home() {
               <SelectContent>
                 <SelectGroup>
                       {firms.map((firm) => (
-              <SelectItem key={firm.id} value={firm.name.toString()}>
+              <SelectItem key={firm.id} value={firm.name}>
                 {firm.name}
               </SelectItem>
             ))}
@@ -82,7 +82,7 @@ export default async function Home() {
               <SelectContent>
                 <SelectGroup>
                   {stations.map((station) => (
-              <SelectItem key={station.id} value={station.name.toString()}>
+              <SelectItem key={station.id} value={station.name}>
                 {station.name}
               </SelectItem>
             ))}
@@ -99,7 +99,7 @@ export default async function Home() {
               <SelectContent>
                 <SelectGroup>
                   {price.map((price) => (
-              <SelectItem key={price.id} value={price.price.toString()}>
+              <SelectItem key={price.id} value={price.price}>
                 {price.price}
               </SelectItem>
             ))}
